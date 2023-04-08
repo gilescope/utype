@@ -1,4 +1,3 @@
-
 pub struct Page {
     pub lines: Vec<Line>,
 }
@@ -10,7 +9,7 @@ pub struct Cursor<'page> {
     current_char: usize,
 }
 
-impl <'page> Cursor<'page> {
+impl<'page> Cursor<'page> {
     pub fn new(page: &'page Page) -> Cursor<'page> {
         Cursor {
             page,
@@ -44,18 +43,16 @@ impl <'page> Cursor<'page> {
         let mut chars = 0;
         for word in self.current_line().words.iter() {
             for ch in word.chars.iter() {
-               
                 if chars == self.current_char {
-                    return Some(*ch);         
-                } 
-                chars+=1;
-            }
-           
-           
-            if chars == self.current_char {
-                    return Some(' ');         
+                    return Some(*ch);
                 }
-                 chars += 1; // for the space
+                chars += 1;
+            }
+
+            if chars == self.current_char {
+                return Some(' ');
+            }
+            chars += 1; // for the space
         }
         None
     }
@@ -63,29 +60,6 @@ impl <'page> Cursor<'page> {
     pub fn is_current_word_last_in_line(&self) -> bool {
         self.current_word == self.current_line().words.len().saturating_sub(1)
     }
-
-    // pub fn next_word(&mut self) -> Option<&Word> {
-    //     self.current_word += 1;
-    //     let has_word = self.current_line().words.get(self.current_word).is_some();
-
-    //     if has_word {
-    //         self.current_line().words.get(self.current_word)
-    //     } else {
-    //         self.current_line += 1;
-    //         self.current_word = 0;
-    //         self.next_word()
-    //     }
-    // }
-
-    // pub fn prev_word(&mut self) -> Option<&Word> {
-    //     if self.current_word == 0 {
-    //         self.current_line = self.current_line.saturating_sub(1);
-    //         self.current_word = self.current_line().words.len().saturating_sub(1);
-    //     } else {
-    //         self.current_word -= 1;
-    //     }
-    //     self.current_line().words.get(self.current_word)
-    // }
 
     pub fn at_start(&self) -> bool {
         self.current_line == 0 && self.current_word == 0 && self.current_char == 0
@@ -148,11 +122,8 @@ impl Page {
             });
             page.push(Line { words: parsed_line });
         }
-        Self {
-            lines: page
-        }
+        Self { lines: page }
     }
-
 }
 
 pub struct Line {
@@ -187,13 +158,13 @@ impl Word {
 }
 
 #[cfg(test)]
-mod test{
+mod test {
     use super::*;
 
     #[test]
     fn test_parse() {
         let page = Page::parse("The quick brown fox jumps over the lazy dog.");
-    
+
         let mut cursor = Cursor::new(&page);
 
         assert_eq!(cursor.current_line().words.len(), 9);
