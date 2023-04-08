@@ -57,14 +57,6 @@ impl<'page> Cursor<'page> {
         None
     }
 
-    pub fn is_current_word_last_in_line(&self) -> bool {
-        self.current_word == self.current_line().words.len().saturating_sub(1)
-    }
-
-    pub fn at_start(&self) -> bool {
-        self.current_line == 0 && self.current_word == 0 && self.current_char == 0
-    }
-
     pub fn next_char(&mut self) {
         self.current_char += 1;
         if self.current_char > self.current_line().len() {
