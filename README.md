@@ -1,6 +1,6 @@
 # utype
 
-Practice typing using a terminal.
+A novel terminal typing program.
 
 **Work in progress**
 
