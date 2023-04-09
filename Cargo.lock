@@ -51,7 +51,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "type"
+name = "utype"
 version = "0.1.0"
 dependencies = [
  "termion",
